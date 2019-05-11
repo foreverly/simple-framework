@@ -1,0 +1,22 @@
+{
+    "name": "bruce/simple-framework",
+    "description": "A simple php framework",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bruce",
+            "email": "185330767@qq.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "sf\\": "src/",
+            "app\\": ""
+        }
+    },
+    "repositories": [
+        {"type": "composer", "url": "http://packagist.phpcomposer.com"},
+        {"packagist": false}
+    ]
+}

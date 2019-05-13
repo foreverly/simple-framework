@@ -1,6 +1,7 @@
 <?php
 // namespace simple;
 
+define('ACCESS',true);
 // define('ADMIN',true);
 // // // 在开发时,声明一个DEBUG模式
 // // define('DEBUG',true);  
@@ -74,6 +75,8 @@
 //载入核心启动类
 include __DIR__ . "/../../framework/core/Framework.php";
 
-Framework::run();
+// 由于采用命名空间，访问类必须带上命名空间
+framework\core\Framework::run();
 // $app = new Framework();
 // $app->run();
+?>

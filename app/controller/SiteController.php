@@ -1,21 +1,17 @@
 <?php
 namespace app\controller;
 // use Simple\Controller;
+use framework\core\Controller;
 
-/**
- * 
- */
-// class SiteController extends Controller
-class SiteController
+class SiteController extends Controller
 {
-	
 	public function __construct()
 	{
-		echo "site init";
+		parent::__construct();
 	}
 
 	public function actionIndex()
 	{
-		echo "site index";
+		return $this->fetch();
 	}
 }

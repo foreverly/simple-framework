@@ -1,19 +1,31 @@
 <?php
-// namespace framework\core;
+namespace framework\core;
 
-//核心启动类
+//权限判断：以后的文件都会用到入口文件所定义的常量‘ACCESS’来判断
+if (!defined('ACCESS')) 
+{
+    //非法访问权限
+    header('Location:/index.php');
+    die;
+}
+
+/**
+ * 核心启动类
+ */
 class Framework {
-	//run方法
-	public static function run(){
-		// echo "hello,world!";
+
+	public static function run()
+	{		
 		self::init();
-		// self::autoload();
-		// self::dispatch();
+		self::setSysError();
+		self::autoload();
+		self::dispatch();
 	}
 
 
 	//	初始化方法
-	private static function init(){
+	private static function init()
+	{
 
 		// 获取路由
 		$router = trim($_SERVER['REQUEST_URI'], '/');
@@ -36,14 +48,16 @@ class Framework {
 		define("LIB_PATH", 				FRAMEWORK_PATH . "library" . DS);
 		define("HELPER_PATH", 			FRAMEWORK_PATH . "helper" . DS);
 		define("UPLOAD_PATH", 			PUBLIC_PATH . "uploads" . DS);
+		define("VENDOR_PATH", 			ROOT . "../../vendor" . DS);
 		//index.php?p=admin&c=goods&a=add--后台的GoodsController中的addAction
-		define("CONTROLLER", 			$controllerName ? ucfirst($controllerName) : "Index" );
-		define("ACTION", 				$actionName ? : "index" );
+		define("CONTROLLER", 			$controllerName ? ucfirst($controllerName) : "Site" );
+		define("ACTION", 				$actionName ? ucfirst($actionName) : "Index" );
+		define("MODULE", 				end(explode(DIRECTORY_SEPARATOR, dirname(ROOT))));
 
 		//加载核心类
 		include CORE_PATH . "Controller.php";
 		include CORE_PATH . "Model.php";
-		include DB_PATH . "Mysql.php";
+		include DB_PATH . "Database.php";
 
 		//载入配置文件
 		$GLOBALS['config'] = include CONFIG_PATH. "config.php";
@@ -53,41 +67,76 @@ class Framework {
 		session_start();
 	}
 
-
-	// //路由分发，说白了，实例化对象调用方法
-	// //index.php?p=admin&c=goods&a=add--后台的GoodsController中的addAction
-	// private static function dispatch(){
-	// 	$controller_name = CONTROLLER . "Controller";
-	// 	$action_name = ACTION . "Action";
-	// 	//实例化对象
-	// 	$controller = new $controller_name();
-	// 	//调用方法
-	// 	$controller->$action_name();
-	// }
+	/**
+	 * 设定错误控制
+	 */
+    private static function setSysError(){
+        //两种级别：级别显示，是否显示
+        @ini_set('error_reporting', E_ALL);
+        @ini_set('display_errors', 1);
+    }
 
 
-	// //自动载入
-	// //此处，只加载application中的controller和model
-	// private static function autoload(){
-	// 	// spl_autoload_register(array(__CLASS__,'load'));
-	// 	spl_autoload_register('self::load');
+	/**
+	 * 路由分发
+	 */
+	private static function dispatch(){
+		$controller_name = CONTROLLER . "Controller";
+		$action_name = "action" . ACTION;
+		// $controller_name = "app\controller\\" . $controller_name;
+
+		include CONTROLLER_PATH . "{$controller_name}.php";
+		$new_path = MODULE . "\controller\\" . $controller_name;
+		$controller = new $new_path();
+		$controller->$action_name();
+
+	}
 
 
-	// }
+	/**
+	 * 自动加载
+	 */	
+	private static function autoload()
+	{
+		// 由self::load方法完成所有类的自动加载
+		spl_autoload_register('self::load');
+	}
 
+	/**
+	 * 完成指定类的加载
+	 * 此处只加载application中的controller和model,如GoodsController，BrandModel
+	 */
+	public static function load($className)
+	{
+		// if (substr($className, -10) == 'Controller') {
+		// 	//控制器
+		// 	if (file_exists(CONTROLLER_PATH . "{$className}.php")) {
+		// 		// var_dump(CONTROLLER_PATH);exit;
+		// 		include CONTROLLER_PATH . "{$className}.php";
+		// 	}
+		// } else
+		if (substr($className, -5) == 'Model') {
+			//模型
+			include MODEL_PATH . "{$className}.php";
+		} else {
+			$classMap = [
+				'framework\\core\\Controller' => CORE_PATH . 'Controller.php',
+				'framework\\core\\View' => CORE_PATH . 'View.php',
+				'framework\\core\\Model' => CORE_PATH . 'Model.php',
+				'framework\\core\\Database' => CORE_PATH . 'Database.php',
+				// 'vendor\\smarty\\smarty\\libs\\Autoloader' => VENDOR_PATH . 'smarty\\smarty\\libs\\Autoloader',
+			];
 
-	// //完成指定类的加载
-	// //只加载application中的controller和model,如GoodsController，BrandModel
-	// public static function load($classname){
-	// 	if (substr($classname, -10) == 'Controller') {
-	// 		//控制器
-	// 		include CUR_CONTROLLER_PATH . "{$classname}.class.php";
-	// 	} elseif (substr($classname, -5) == 'Model') {
-	// 		//模型
-	// 		include MODEL_PATH . "{$classname}.class.php";
-	// 	} else {
-	// 		//暂略
-	// 	}
-	// }
+			// TODO  根目录下的类调用未排除，如Smarty会进入这里
+			if (isset($classMap[$className])) {
+				$classFile = $classMap[$className];
+
+				if (file_exists($classFile)) {
+					include $classFile;
+				}
+			}
+		}
+	}
 
 }
+?>

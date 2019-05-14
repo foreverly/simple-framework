@@ -28,7 +28,7 @@ class SiteController extends Controller
 	{
 		$db = DB::getInstance();
 		$res = $db->query("select * from `user`");
-		var_dump($res);exit;
-		// var_dump(Request::post());exit;
+
+		return ajaxSuccess($res);
 	}
 }

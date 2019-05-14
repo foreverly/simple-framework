@@ -61,6 +61,10 @@ class Framework {
 		include CORE_PATH . "Model.php";
 		include DB_PATH . "Database.php";
 
+		if (is_file(APP_PATH . 'common.php')) {
+			include APP_PATH . 'common.php';
+		}
+
 		//载入配置文件
 		$GLOBALS['config'] = include CONFIG_PATH. "config.php";
 

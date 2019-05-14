@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<head>
+	<title>a</title>
+</head>
+<body>
+	<button id="a-btn">A-Test</button>
+</body>
+</html>
+
+<script type="text/javascript">
+
+$("#a-btn").on('click', function(){
+	$.ajax({
+		url : "/site/getInfo",
+		type : "POST",
+		data : { "a":"test" } , // 此次需要注意：花括号两边都需要是空格才不会被模板引擎误解析
+		dataType: "json",
+		success:function(res){
+			console.log('ok')
+		}
+	})
+})
+
+</script>

@@ -1,33 +1,33 @@
 <?php
-/* Smarty version 3.1.33, created on 2019-05-13 18:05:50
+/* Smarty version 3.1.33, created on 2019-05-14 09:15:31
   from '/mnt/d/Workspace/www/simple-framework/app/view/site/index.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.33',
-  'unifunc' => 'content_5cd9417e589264_17205115',
+  'unifunc' => 'content_5cda16b34d8900_51948775',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '8366608df60c4731f8e627cb96e33fd0a1d82791' => 
     array (
       0 => '/mnt/d/Workspace/www/simple-framework/app/view/site/index.html',
-      1 => 1536785656,
+      1 => 1557796521,
       2 => 'file',
     ),
   ),
   'includes' => 
   array (
-    'file:header.tpl' => 1,
-    'file:footer.tpl' => 1,
+    'file:../layout/header.html' => 1,
+    'file:../layout/footer.html' => 1,
   ),
 ),false)) {
-function content_5cd9417e589264_17205115 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5cda16b34d8900_51948775 (Smarty_Internal_Template $_smarty_tpl) {
 $_smarty_tpl->_checkPlugins(array(0=>array('file'=>'/mnt/d/Workspace/www/simple-framework/vendor/smarty/smarty/libs/plugins/modifier.capitalize.php','function'=>'smarty_modifier_capitalize',),1=>array('file'=>'/mnt/d/Workspace/www/simple-framework/vendor/smarty/smarty/libs/plugins/modifier.date_format.php','function'=>'smarty_modifier_date_format',),2=>array('file'=>'/mnt/d/Workspace/www/simple-framework/vendor/smarty/smarty/libs/plugins/function.html_select_date.php','function'=>'smarty_function_html_select_date',),3=>array('file'=>'/mnt/d/Workspace/www/simple-framework/vendor/smarty/smarty/libs/plugins/function.html_select_time.php','function'=>'smarty_function_html_select_time',),4=>array('file'=>'/mnt/d/Workspace/www/simple-framework/vendor/smarty/smarty/libs/plugins/function.html_options.php','function'=>'smarty_function_html_options',),));
-$_smarty_tpl->smarty->ext->configLoad->_loadConfigFile($_smarty_tpl, "test.conf", "setup", 0);
+$_smarty_tpl->smarty->ext->configLoad->_loadConfigFile($_smarty_tpl, "../configs/test.conf", "setup", 0);
 ?>
 
-<?php $_smarty_tpl->_subTemplateRender("file:header.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('title'=>'foo'), 0, false);
+<?php $_smarty_tpl->_subTemplateRender("file:../layout/header.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array('title'=>'foo'), 0, false);
 ?>
 
 <PRE>
@@ -138,6 +138,6 @@ This is an example of the html_options function:
     </select>
 </form>
 
-<?php $_smarty_tpl->_subTemplateRender("file:footer.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+<?php $_smarty_tpl->_subTemplateRender("file:../layout/footer.html", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 }
 }

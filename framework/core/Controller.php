@@ -15,15 +15,24 @@ class Controller
 		$this->view = new View();
 	}
 
+	/**
+	 * 加载模板输出
+	 * @return $this
+	 */
+	protected function fetch($template = '')
+	{
+		// TODO 调用视图类处理渲染操作
+		return $this->view->fetch($template);
+	}
 
 	/**
 	 * 加载模板输出
 	 * @return $this
 	 */
-	protected function fetch($template = '', $vars = [], $config = [])
+	protected function display($template = '')
 	{
 		// TODO 调用视图类处理渲染操作
-		return $this->view->fetch($template, $vars, $config);
+		$this->view->display($template);
 	}
 
 	/**

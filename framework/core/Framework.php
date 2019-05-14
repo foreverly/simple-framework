@@ -53,6 +53,8 @@ class Framework {
 		define("CONTROLLER", 			$controllerName ? ucfirst($controllerName) : "Site" );
 		define("ACTION", 				$actionName ? ucfirst($actionName) : "Index" );
 		define("MODULE", 				end(explode(DIRECTORY_SEPARATOR, dirname(ROOT))));
+		define('IS_AJAX', 				isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest');
+		
 
 		//加载核心类
 		include CORE_PATH . "Controller.php";
@@ -61,7 +63,6 @@ class Framework {
 
 		//载入配置文件
 		$GLOBALS['config'] = include CONFIG_PATH. "config.php";
-
 
 		//开启session
 		session_start();
@@ -82,8 +83,7 @@ class Framework {
 	 */
 	private static function dispatch(){
 		$controller_name = CONTROLLER . "Controller";
-		$action_name = "action" . ACTION;
-		// $controller_name = "app\controller\\" . $controller_name;
+		$action_name = IS_AJAX ? ACTION : "action" . ACTION;
 
 		include CONTROLLER_PATH . "{$controller_name}.php";
 		$new_path = MODULE . "\controller\\" . $controller_name;
@@ -124,6 +124,7 @@ class Framework {
 				'framework\\core\\View' => CORE_PATH . 'View.php',
 				'framework\\core\\Model' => CORE_PATH . 'Model.php',
 				'framework\\core\\Database' => CORE_PATH . 'Database.php',
+				'framework\\core\\Request' => CORE_PATH . 'Request.php',
 				// 'vendor\\smarty\\smarty\\libs\\Autoloader' => VENDOR_PATH . 'smarty\\smarty\\libs\\Autoloader',
 			];
 

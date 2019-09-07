@@ -1,4 +1,5 @@
 <?php
+namespace framework\core;
 
 /**
  * DB类
